@@ -1,0 +1,22 @@
+# Crindy: dead-simple eventloop programming for Python
+
+Crindy was born out of my frustration with trying to write applications 
+in Python that have several timer-based loops running at different 
+frequencies. My initial approach used Python threads, but that approach 
+is nasty for a number of reasons, the most pertinent being that these
+eventloops aren't really doing any concurrent processing other that
+sleeping and that there is no mechanism for killing threads. Even if 
+there were, there isn't a good, Pythonic equivalent of destructors, so 
+I was left propagating kill flags to all of the encapsulated threads. 
+Blech.
+
+Enter crindy. Crindy exposes a simple interface similar to Javascript's
+setTimeout call and has a built-in message pump. As a result, creating 
+applications with crindy is similar to creation applications in node.js:
+when modules are created, they register their first timeout and
+callback, which then registers other callbacks as appropriate. When the
+message pump runs dry, the application is over.
+
+## Stupid example
+
+import crindy
