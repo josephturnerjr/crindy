@@ -65,6 +65,10 @@ class EventScheduler(object):
             self.run_next_set()
 
 _scheduler = EventScheduler()
+
+def set_default_scheduler(sched):
+    _scheduler = sched
+
 def clear():
     _scheduler.clear()
 
