@@ -1,7 +1,8 @@
 import time
 
+
 class EventScheduler(object):
-    def __init__(self, sleep_func = time.sleep):
+    def __init__(self, sleep_func=time.sleep):
         self.sleep_func = sleep_func
         self._queue = []
 
@@ -31,7 +32,7 @@ class EventScheduler(object):
 
     def run_next(self):
         """
-        Sleeps as needed then runs exactly one callback        
+        Sleeps as needed then runs exactly one callback
         """
         if not self._queue:
             return None
@@ -64,20 +65,26 @@ class EventScheduler(object):
         while self:
             self.run_next_set()
 
+
 _scheduler = EventScheduler()
 
+
 def set_default_scheduler(sched):
+    global _scheduler
     _scheduler = sched
+
 
 def clear():
     _scheduler.clear()
 
+
 def clear_tagged(tag):
     _scheduler.clear_tagged(tag)
+
 
 def add_event(timeout_secs, to_call, args=[], tag=None):
     _scheduler.add_event(timeout_secs, to_call, args, tag)
 
+
 def run():
     _scheduler.run()
-
