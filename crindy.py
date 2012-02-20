@@ -37,12 +37,10 @@ class EventScheduler(object):
         if not self._queue:
             return None
         self.sleep_til_next()
+        # Remove item from the queue
+        item = self._queue.pop(0)
         # Call the item
-        item = self._queue[0]
-        res = item[1](*item[2])
-        # Remove items from the queue
-        del self._queue[:1]
-        return res
+        return item[1](*item[2])
 
     def run_next_set(self):
         """
@@ -53,12 +51,12 @@ class EventScheduler(object):
             return None
         self.sleep_til_next()
         to_run = filter(lambda x: x[0] <= 0, self._queue)
+        # Remove items from the queue
+        del self._queue[:len(to_run)]
         res = []
         for item in to_run:
             # Call the item and append to results set
             res.append(item[1](*item[2]))
-        # Remove items from the queue
-        del self._queue[:len(to_run)]
         return res
 
     def run(self):
