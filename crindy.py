@@ -2,8 +2,10 @@ import time
 
 
 class EventScheduler(object):
+    SLEEP_INTERVAL = 0.5
+
     def __init__(self, sleep_func=time.sleep):
-        self.sleep_func = sleep_func
+        self._sleep_func = sleep_func
         self._queue = []
 
     def __len__(self):
@@ -18,6 +20,15 @@ class EventScheduler(object):
     def add_event(self, timeout_secs, to_call, args=[], tag=None):
         self._queue.append([timeout_secs, to_call, args, tag])
         self._queue.sort(key=lambda x: x[0])
+
+    def sleep_func(self, sleep_secs):
+        start = time.time()
+        while True:
+            left = sleep_secs - (time.time() - start)
+            if left < 0:
+                break
+            else:
+                self._sleep_func(min(left, self.SLEEP_INTERVAL))
 
     def sleep_til_next(self):
         """

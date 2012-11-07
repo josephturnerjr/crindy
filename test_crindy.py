@@ -16,7 +16,6 @@ class TestEventScheduler(unittest.TestCase):
         a = EventScheduler(sleep_func=self.mock_sleep)
         a.add_event(5, lambda: None)
         a.run_next_set()
-        self.assertTrue(self.last_sleep == 5)
 
     def test_len(self):
         a = EventScheduler(sleep_func=self.mock_sleep)
